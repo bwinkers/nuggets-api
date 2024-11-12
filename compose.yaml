@@ -1,8 +1,8 @@
 services:
   api:
     build: ./api
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
   proxy:
     build: ./proxy
     ports:
