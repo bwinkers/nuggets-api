@@ -4,20 +4,29 @@ services:
     expose:
       - "3000"
   proxy:
-    build: ./proxy
+    image: nginx:latest
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      # Basic Nginx configs
-      - ./proxy/prod/config/nginx.conf:/usr/local/openresty/nginx.conf
-      # Host based configs
-      - ./proxy/prod/hosts:/etc/nginx/conf.d
-      # Static HTML root
-      - ./proxy/prod/html:/usr/local/openresty/nginx/html
-      # Default certs, used until a given host's ACME generated cert is created
-      - ./proxy/prod/certs/default/account.key:/etc/openresty/account.key
-      - ./proxy/prod/certs/default/default.key:/etc/openresty/default.key
-      - ./proxy/prod/certs/default/default.pem:/etc/openresty/default.pem
-      # Storage for created ACME certs, this should be backed up securely.
-      - ./proxy/prod/certs/storage:/etc/openresty/storage
+      - ./proxy/prod/config/:/etc/nginx/conf.d/:ro
+      - ./certbot/www/:/var/www/certbot/:ro
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+    # volumes:
+    #   # Basic Nginx configs
+    #   - ./proxy/prod/config/nginx.conf:/usr/local/openresty/nginx.conf
+    #   # Host based configs
+    #   - ./proxy/prod/hosts:/etc/nginx/conf.d
+    #   # Static HTML root
+    #   - ./proxy/prod/html:/usr/local/openresty/nginx/html
+    #   # Default certs, used until a given host's ACME generated cert is created
+    #   - ./proxy/prod/certs/default/account.key:/etc/openresty/account.key
+    #   - ./proxy/prod/certs/default/default.key:/etc/openresty/default.key
+    #   - ./proxy/prod/certs/default/default.pem:/etc/openresty/default.pem
+    #   # Storage for created ACME certs, this should be backed up securely.
+    #   - ./proxy/prod/certs/storage:/etc/openresty/storage
