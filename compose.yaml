@@ -1,11 +1,1 @@
-services:
-  api:
-    build: ./api
-    expose:
-      - "3000"
-  proxy:
-    build: ./proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    
+compose-prod.yaml
