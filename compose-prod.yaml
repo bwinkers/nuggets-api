@@ -4,7 +4,12 @@ services:
     expose:
       - "3000"
   proxy:
-    image: nginx:latest
+    # image: nginx:latest
+    build:
+      context: ./proxy/
+      args:
+        ENABLED_MODULES: brotli subs-filter
+    image: custom-nginx:v1
     ports:
       - "80:80"
       - "443:443"
