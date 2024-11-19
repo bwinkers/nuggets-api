@@ -15,4 +15,4 @@ services:
     volumes:
       - ./proxy/dev/config/:/etc/nginx/conf.d/:ro
       - ./proxy/dev/html/:/var/www/sites/:ro
-      - ./local-ssl/:/etc/ssl/:ro
+      - ./proxy/dev/certs/:/etc/ssl/:ro

@@ -22,20 +22,24 @@ The local CA is now installed in the Firefox and/or Chrome/Chromium trust store 
 ## Create Cert
 
 ```sh
-mkdir local-ssl
-cd local-ssl
+mkdir ./proxy/dev/certs
+cd ./proxy/dev/certs
 mkcert localhost
 ```
 
 Result:
 
 ```sh
+mkcert api.localhost
+```
+
+```sh
 Created a new certificate valid for the following names 📜
- - "localhost"
+ - "api.localhost"
 
-The certificate is at "./localhost.pem" and the key at "./localhost-key.pem" ✅
+The certificate is at "./api.localhost.pem" and the key at "./api.localhost-key.pem" ✅
 
-It will expire on 18 February 2027 🗓
+It will expire on 19 February 2027 🗓
 ```
 
 ## Define in Nginx proxy for API
