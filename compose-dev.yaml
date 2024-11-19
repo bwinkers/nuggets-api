@@ -4,8 +4,15 @@ services:
     expose:
       - "3000"
   proxy:
-    build: ./proxy
+    build:
+      context: ./proxy/
+      args:
+        ENABLED_MODULES: brotli subs-filter ndk lua
+    image: custom-nginx:v1
     ports:
       - "80:80"
       - "443:443"
-    
+    volumes:
+      - ./proxy/dev/config/:/etc/nginx/conf.d/:ro
+      - ./proxy/dev/html/:/var/www/sites/:ro
+      - ./local-ssl/:/etc/ssl/:ro
