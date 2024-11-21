@@ -23,4 +23,4 @@ COPY . /api
 EXPOSE 3000
 
 # Starting our application
-CMD [ "fastify", "start", "-l", "info", "app.js" ]
+CMD [ "node", "server.js" ]

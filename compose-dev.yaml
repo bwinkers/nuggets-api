@@ -9,6 +9,8 @@ services:
       args:
         ENABLED_MODULES: brotli subs-filter ndk lua
     image: custom-nginx:v1
+    depends_on:
+      - api
     ports:
       - "80:80"
       - "443:443"
