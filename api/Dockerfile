@@ -1,10 +1,10 @@
 # Fetching the minified node image on apline linux
-FROM node:slim
+FROM node:lts-bullseye-slim AS build
 
 # Setting up the work directory
 WORKDIR /api
 
-# Declaring env
+# Declaring env default
 ENV NODE_ENV=development
 
 # COPY package.json
