@@ -1,30 +1,19 @@
-# Fetching the minified node image on apline linux
+# temporary image
 FROM node:lts-bullseye-slim AS build
-
+ENV NODE_ENV development
 RUN apt-get update && apt-get install -y --no-install-recommends dumb-init
-
-# Setting up the work directory
 WORKDIR /api
-
-# Declaring env default
-ENV NODE_ENV=development
-
-# COPY package.json
 COPY package.json /api
-
-RUN 
-
-# Install Fastify
-# RUN yarn global add fastify-cli
-
-# Installing dependencies
 RUN npm install
+RUN npm ci --only=production
 
-# Copying all the files in our project
-COPY . /api
-
-# Exposing server port
+# production image
+FROM node:lts-bullseye-slim
+ENV NODE_ENV production
+COPY --from=build /usr/bin/dumb-init /usr/bin/dumb-init
+USER node
+WORKDIR /api
+COPY --chown=node:node --from=build /api/node_modules /api/node_modules
+COPY --chown=node:node . /api
 EXPOSE 3000
-
-# Starting our application
-CMD [ "node", "server.js" ]
+CMD ["dumb-init", "node", "server.js"]
