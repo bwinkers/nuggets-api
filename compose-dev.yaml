@@ -1,9 +1,28 @@
 services:
   api:
+    container_name: nuggets-api
     build: ./api
+    env_file: .env
+    command: ["node", "server.js"]
+    depends_on:
+      - smtp
+      - postgres
+    networks:
+      - nuggetnet
     expose:
       - "3000"
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./api
+          target: /api
+          ignore:
+            - .git
+            - node_modules/
+        - action: rebuild
+          path: package.json
   proxy:
+    container_name: nuggets-proxy
     build:
       context: ./proxy/
       args:
@@ -11,6 +30,8 @@ services:
     image: custom-nginx:v1
     depends_on:
       - api
+    networks:
+      - nuggetnet
     ports:
       - "80:80"
       - "443:443"
@@ -18,3 +39,46 @@ services:
       - ./proxy/dev/config/:/etc/nginx/conf.d/:ro
       - ./proxy/dev/html/:/var/www/sites/:ro
       - ./proxy/dev/certs/:/etc/ssl/:ro
+  smtp:
+    container_name: nuggets-smtp4dev
+    image: rnwood/smtp4dev:v3
+    restart: no
+    env_file: .env
+    networks:
+      - nuggetnet
+    ports:
+      - '5000:80'
+    expose:
+      - '25:25'
+      - '143:143'
+    volumes:
+      # This is where smtp4dev stores the database..
+      - smtp4dev:/smtp4dev
+  
+  postgres:
+    container_name: nuggets-postgres
+    command: ["postgres", "-c", "log_statement=all"]
+    image: "postgres:14"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: no
+    env_file: .env
+    networks:
+      - nuggetnet
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgres/data
+      - ./postgres:/docker-entrypoint-initdb.d/
+
+volumes:
+  smtp4dev: {}
+  pgdata: {}
+
+networks:
+  nuggetnet:
+    external: false
+    driver: bridge
