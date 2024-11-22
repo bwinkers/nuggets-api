@@ -3,8 +3,8 @@ FROM node:lts-bullseye-slim AS build
 ENV NODE_ENV development
 RUN apt-get update && apt-get install -y --no-install-recommends dumb-init
 WORKDIR /api
-COPY package.json /api
-RUN npm install
+COPY package.json package-lock.json /api
+# RUN npm install
 RUN npm ci --only=production
 
 # production image
@@ -16,4 +16,4 @@ WORKDIR /api
 COPY --chown=node:node --from=build /api/node_modules /api/node_modules
 COPY --chown=node:node . /api
 EXPOSE 3000
-CMD ["dumb-init", "node", "server.js"]
+# CMD ["dumb-init", "node", "server.js"]

@@ -30,7 +30,7 @@ closeWithGrace({ delay: process.env.FASTIFY_CLOSE_GRACE_DELAY || 500 }, async fu
 })
 
 // Start listening.
-app.listen({ host: "0.0.0.0", port: process.env.PORT || 3000 }, (err, address) => {
+app.listen({ host: process.env.HTTP_HOST || "0.0.0.0", port: process.env.HTTP_PORT || 3000 }, (err, address) => {
   if (err) {
     app.log.error(err)
     process.exit(1)

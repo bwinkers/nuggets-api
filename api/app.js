@@ -2,14 +2,18 @@ import path from 'path'
 import AutoLoad from '@fastify/autoload'
 import { fileURLToPath } from 'url'
 
+import config from './config/config.js'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Pass --options via CLI arguments in command to enable these options.
 export const options = {}
+//test
 
 export default async function (fastify, opts) {
   // Place here your custom code!
+  await fastify.register(config);
 
   // Do not touch the following lines
 
