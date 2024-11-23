@@ -4,7 +4,6 @@ import fastifyPlugin from "fastify-plugin";
 
 import supertokens from "supertokens-node";
 import Session from "supertokens-node/recipe/session/index.js";
-// import EmailPassword from "supertokens-node/recipe/emailpassword/index.js";
 import Passwordless from "supertokens-node/recipe/passwordless/index.js";
 import { SMTPService } from "supertokens-node/recipe/passwordless/emaildelivery/index.js";
 import {
@@ -49,7 +48,6 @@ async function auth(server, options) {
           }),
         },
       }),
-      EmailPassword.init(), // initializes signin / sign up features
       Session.init(), // initializes session features
     ],
   });

@@ -60,7 +60,7 @@ services:
   postgres:
     container_name: nuggets-postgres
     command: ["postgres", "-c", "log_statement=all"]
-    image: "postgres:latest"
+    image: "postgres:17-alpine"
     healthcheck:
       test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres"]
       timeout: 45s
