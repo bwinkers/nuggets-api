@@ -1,13 +1,33 @@
 services:
+    
+  postgres:
+    container_name: "${STACKNAME}-nuggets-postgres"
+    command: ["postgres", "-c", "log_statement=all"]
+    image: "postgres:17-alpine"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: no
+    env_file: .env
+    networks:
+      - nuggetnet
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgres/data
+      - ./postgres:/docker-entrypoint-initdb.d/
+
   api:
-    container_name: nuggets-api
+    container_name: "${STACKNAME}-nuggets-api"
     build: ./api
     env_file: .env
     command: ["node", "server.js"]
     restart: no
     depends_on:
-      - smtp
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - nuggetnet
     expose:
@@ -22,8 +42,9 @@ services:
             - node_modules/
         - action: rebuild
           path: package.json
+  
   proxy:
-    container_name: nuggets-proxy
+    container_name: "${STACKNAME}-nuggets-proxy"
     build:
       context: ./proxy/
       args:
@@ -41,8 +62,9 @@ services:
       - ./proxy/dev/config/:/etc/nginx/conf.d/:ro
       - ./proxy/dev/html/:/var/www/sites/:ro
       - ./proxy/dev/certs/:/etc/ssl/:ro
-  smtp:
-    container_name: nuggets-smtp4dev
+  
+  smtp4dev:
+    container_name: "${STACKNAME}-nuggets-smtp4dev"
     image: rnwood/smtp4dev:v3
     restart: no
     env_file: .env
@@ -56,25 +78,6 @@ services:
     volumes:
       # This is where smtp4dev stores the database..
       - smtp4dev:/smtp4dev
-  
-  postgres:
-    container_name: nuggets-postgres
-    command: ["postgres", "-c", "log_statement=all"]
-    image: "postgres:17-alpine"
-    healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres"]
-      timeout: 45s
-      interval: 10s
-      retries: 10
-    restart: no
-    env_file: .env
-    networks:
-      - nuggetnet
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgres/data
-      - ./postgres:/docker-entrypoint-initdb.d/
 
 volumes:
   smtp4dev: {}
