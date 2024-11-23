@@ -19,6 +19,25 @@ services:
       - pgdata:/var/lib/postgres/data
       - ./postgres:/docker-entrypoint-initdb.d/
 
+  zitadel:
+    restart: 'no'
+    networks:
+      - 'nuggetnet'
+    image: 'ghcr.io/zitadel/zitadel:latest'
+    command: 'start-from-init --masterkey "MasterkeyNeedsToHave32Characters" --tlsMode disabled'
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: 'service_healthy'
+    ports:
+      - '8080:8080'
+    healthcheck:
+      test: ["CMD", "/app/zitadel", "ready"]
+      interval: '10s'
+      timeout: '5s'
+      retries: 5
+      start_period: '10s'
+
   api:
     container_name: "${STACKNAME}-nuggets-api"
     build: ./api
