@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-export PGPASSWORD=$SUPERTOKENS_PASSWORD;
-psql -v ON_ERROR_STOP=1 --username "$SUPERTOKENS_USER" --dbname "postgres" <<-EOSQL
-    CREATE DATABASE $SUPERTOKENS_DB_NAME;
+export PGPASSWORD=$API_PGPASSWORD;
+psql -v ON_ERROR_STOP=1 --username "$API_PGUSER" --dbname "postgres" <<-EOSQL
+    CREATE DATABASE $API_PGDATABASE;
 EOSQL

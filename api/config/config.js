@@ -7,18 +7,6 @@ export default fp(async (fastify) => {
         type: "object",
         // required: [
         //   "HTTP_PORT",
-        //   "SUPERTOKENS_CONNECTION_URI",
-        //   "SUPERTOKENS_API_KEY",
-        //   "SUPERTOKENS_APPNAME",
-        //   "SUPERTOKENS_API_DOMAIN",
-        //   "SUPERTOKENS_API_BASE_PATH",
-        //   "SUPERTOKENS_WEBSITE_DOMAIN",
-        //   "SUPERTOKENS_WEBSITE_BASE_PATH",
-        //   "SUPERTOKENS_3RD_PARTY_GOOGLE_CLIENT_ID",
-        //   "SUPERTOKENS_3RD_PARTY_GOOGLE_CLIENT_SECRET",
-        //   "SUPERTOKENS_3RD_PARTY_GITHUB_CLIENT_ID",
-        //   "SUPERTOKENS_3RD_PARTY_GITHUB_CLIENT_SECRET",
-        //   "CORS_ORIGIN_URL",
         // ],
         properties: {
           HTTP_PORT: {
@@ -29,40 +17,19 @@ export default fp(async (fastify) => {
             type: "string",
             default: "0.0.0.0",
           },
-          SUPERTOKENS_CONNECTION_URI: {
-            type: "string",
-          },
-          SUPERTOKENS_API_KEY: {
-            type: "string",
-          },
-          SUPERTOKENS_APPNAME: {
-            type: "string",
-          },
-          SUPERTOKENS_API_DOMAIN: {
-            type: "string",
-          },
-          SUPERTOKENS_API_BASE_PATH: {
-            type: "string",
-          },
-          SUPERTOKENS_WEBSITE_DOMAIN: {
-            type: "string",
-          },
-          SUPERTOKENS_WEBSITE_BASE_PATH: {
-            type: "string",
-          },
-          SUPERTOKENS_3RD_PARTY_GOOGLE_CLIENT_ID: {
-            type: "string",
-          },
-          SUPERTOKENS_3RD_PARTY_GOOGLE_CLIENT_SECRET: {
-            type: "string",
-          },
-          SUPERTOKENS_3RD_PARTY_GITHUB_CLIENT_ID: {
-            type: "string",
-          },
-          SUPERTOKENS_3RD_PARTY_GITHUB_CLIENT_SECRET: {
-            type: "string",
-          },
           CORS_ORIGIN_URL: {
+            type: "string",
+          },
+          API_PGHOST: {
+            type: "string",
+          },
+          API_PGUSER: {
+            type: "string",
+          },
+          API_PGPASSWORD: {
+            type: "string",
+          },
+          API_PGDATABASE: {
             type: "string",
           },
           SMTP_HOST: {
@@ -86,9 +53,6 @@ export default fp(async (fastify) => {
           SMTP_SECURE: {
             type: "boolean",
           },
-          API_POSTGRES_URI: {
-            type: "string",
-          }
         },
       };
 
