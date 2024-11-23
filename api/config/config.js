@@ -5,21 +5,21 @@ export default fp(async (fastify) => {
 
     const schema = {
         type: "object",
-        required: [
-          "HTTP_PORT",
-          "SUPERTOKENS_CONNECTION_URI",
-          "SUPERTOKENS_API_KEY",
-          "SUPERTOKENS_APPNAME",
-          "SUPERTOKENS_API_DOMAIN",
-          "SUPERTOKENS_API_BASE_PATH",
-          "SUPERTOKENS_WEBSITE_DOMAIN",
-          "SUPERTOKENS_WEBSITE_BASE_PATH",
-          "SUPERTOKENS_3RD_PARTY_GOOGLE_CLIENT_ID",
-          "SUPERTOKENS_3RD_PARTY_GOOGLE_CLIENT_SECRET",
-          "SUPERTOKENS_3RD_PARTY_GITHUB_CLIENT_ID",
-          "SUPERTOKENS_3RD_PARTY_GITHUB_CLIENT_SECRET",
-          "CORS_ORIGIN_URL",
-        ],
+        // required: [
+        //   "HTTP_PORT",
+        //   "SUPERTOKENS_CONNECTION_URI",
+        //   "SUPERTOKENS_API_KEY",
+        //   "SUPERTOKENS_APPNAME",
+        //   "SUPERTOKENS_API_DOMAIN",
+        //   "SUPERTOKENS_API_BASE_PATH",
+        //   "SUPERTOKENS_WEBSITE_DOMAIN",
+        //   "SUPERTOKENS_WEBSITE_BASE_PATH",
+        //   "SUPERTOKENS_3RD_PARTY_GOOGLE_CLIENT_ID",
+        //   "SUPERTOKENS_3RD_PARTY_GOOGLE_CLIENT_SECRET",
+        //   "SUPERTOKENS_3RD_PARTY_GITHUB_CLIENT_ID",
+        //   "SUPERTOKENS_3RD_PARTY_GITHUB_CLIENT_SECRET",
+        //   "CORS_ORIGIN_URL",
+        // ],
         properties: {
           HTTP_PORT: {
             type: "number",

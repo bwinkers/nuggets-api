@@ -13,6 +13,7 @@ import {
 
 async function auth(server, options) {
   supertokens.init({
+    debug: true,
     framework: "fastify",
     supertokens: {
       // These are the connection details of the app you created on supertokens.com
@@ -31,7 +32,7 @@ async function auth(server, options) {
       Passwordless.init({
         // flowType: "USER_INPUT_CODE_AND_MAGIC_LINK",
         flowType: "USER_INPUT_CODE",
-        contactMethod: "EMAIL_OR_PHONE",
+        contactMethod: "EMAIL",
         emailDelivery: {
           service: new SMTPService({
             smtpSettings: {

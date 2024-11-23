@@ -2,6 +2,8 @@ import path from 'path'
 import AutoLoad from '@fastify/autoload'
 import { fileURLToPath } from 'url'
 
+import fastifyPrintRoutes from 'fastify-print-routes'
+
 import config from './config/config.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -13,6 +15,8 @@ export const options = {}
 
 export default async function (fastify, opts) {
   // Place here your custom code!
+  await fastify.register(fastifyPrintRoutes)
+
   await fastify.register(config);
 
   // Do not touch the following lines
@@ -31,4 +35,5 @@ export default async function (fastify, opts) {
     dir: path.join(__dirname, 'routes'),
     options: Object.assign({}, opts)
   })
+
 }
