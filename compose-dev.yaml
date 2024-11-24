@@ -19,24 +19,19 @@ services:
       - pgdata:/var/lib/postgres/data
       - ./postgres:/docker-entrypoint-initdb.d/
 
-  zitadel:
-    restart: 'no'
-    networks:
-      - 'nuggetnet'
-    image: 'ghcr.io/zitadel/zitadel:latest'
-    command: 'start-from-init --masterkey "MasterkeyNeedsToHave32Characters" --tlsMode disabled'
-    env_file: .env
-    depends_on:
-      postgres:
-        condition: 'service_healthy'
-    ports:
-      - '8080:8080'
+  redis:
+    container_name: "${STACKNAME}-nuggets-redis"
+    image: docker.io/library/redis:alpine
+    command: --save 60 1 --loglevel warning
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "/app/zitadel", "ready"]
-      interval: '10s'
-      timeout: '5s'
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
       retries: 5
-      start_period: '10s'
+      timeout: 3s
+    volumes:
+      - redis:/data
 
   api:
     container_name: "${STACKNAME}-nuggets-api"
@@ -101,6 +96,8 @@ services:
 volumes:
   smtp4dev: {}
   pgdata: {}
+  redis:
+    driver: local
 
 networks:
   nuggetnet:
